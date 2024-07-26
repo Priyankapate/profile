@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Hub - Edit Profile</title>
+    <link rel="stylesheet" href="profile1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+     <!-- Leaflet CSS -->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+     <style>
+         body {
+             margin: 0;
+             padding: 0;
+         }
+         #map {
+             width: 60%;
+             height: 30vh;
+         }
+         /* Custom alert box styles */
+         .custom-alert {
+             display: none;
+             position: fixed;
+             left: 50%;
+             top: 50%;
+             width: 300px;
+             height: 100px;
+             transform: translate(-50%, -50%);
+             background-color: rgb(204, 198, 198);
+             border: 2px solid #0d0b0b;
+             padding: 20px;
+             z-index: 1000;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         }
+         .custom-alert p {
+             margin: 0;
+         }
+         .custom-alert button {
+             margin-top: 20px;
+             padding: 5px 10px;
+         }
+         /* Overlay styles */
+         .overlay {
+             display: none;
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             background-color: rgba(0, 0, 0, 0.5);
+             z-index: 999;
+         }
+     </style>
+</head>
+<body>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script> 
+    <header>
+        <div class="logo">Beauty Hub</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Earn With Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#"><i class="fa-regular fa-circle-user fa-xl" ></i></a></li>
+            </ul>
+        </nav>
+    </header>   
+   <section>
+    <div class="sidebar">
+        <div class="circle">
+            <div class="circle1">Beauty Hub</div>
+        </div>
+        <br>
+        <br>
+        <ul>
+            <li><a href="profile1.html" class="active"><i class="fa fa-pencil"></i> Edit Profile</a></li>
+            <li><a href="notification.html"><i class="fa fa-bell"></i> Notification</a></li>
+            <li><a href="addlocation.html"><i class="fa fa-map-marker"></i> Add Address</a></li>
+            <li><a href="history.html"><i class="fa fa-history"></i> History</a></li>
+            <li><a href="profile2.html"><i class="fa fa-key"></i> Change Password</a></li>
+            <li><a href="#" id="logoutBtn"><i class="fa fa-sign-out"></i> Logout</a></li>
+            <div id="logoutPopup" class="popup">
+                <div class="popup-content">
+                    <span class="close">&times;</span>
+                    <p>Are you sure you want to logout?</p>
+                    <button id="confirmLogout">Yes</button>
+                    <button id="cancelLogout">No</button>
+                </div>
+            </div>
+        </ul>
+    </div>
+    <main>
+        <div class="edit-profile">
+        <h1>Add Address</h1> 
+        <h3>Drag the map to pin point your delivery location.</h3>
+        <div id="map"></div>
+    <!-- Custom alert box -->
+    <div class="overlay"></div>
+    <div class="custom-alert">
+        <p id="alert-content"></p>
+        <button onclick="closeAlert()">OK</button>
+    </div>
+        </div>
+        <button  type="submit" class="btn-update">Add location</a></button>&nbsp;
+        <button type="button" class="btn-cancel">Cancel</button>
+
+    </main>
+        </div> 
+</section>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Beauty Hub</h3>
+                <p><i class="fa-solid fa-envelope fa-xl"></i>&nbsp; beautyhub@gmail.com</p>
+                <p><i class="fa-solid fa-phone-volume fa-xl"></i>&nbsp; +977 986-87309</p>
+                <div class="social-icons">
+                    <i class="fa-brands fa-facebook fa-xl"></i>
+                    <i class="fa-brands fa-tiktok fa-xl"></i>
+                    <i class="fa-brands fa-youtube fa-xl"></i>
+                    <i class="fa-brands fa-linkedin fa-xl"></i>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>About</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Become Beautician</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Features</h3>
+                <ul>
+                    <li><a href="#">Ease Service</a></li>
+                    <li><a href="#">Location Track</a></li>
+                    <li><a href="#">Rating & Feedback</a></li>
+                    <li><a href="#">Ease communicate</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Forum</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Beauty Hub. All rights Reserved</p>
+        </div>
+    </footer>
+    // logoutsection
+     <script >       
+    const logoutBtn = document.getElementById('logoutBtn');
+const logoutPopup = document.getElementById('logoutPopup');
+const closeBtn = document.querySelector('.close');
+const confirmLogout = document.getElementById('confirmLogout');
+const cancelLogout = document.getElementById('cancelLogout');
+
+// Show the popup when the logout button is clicked
+logoutBtn.addEventListener('click', () => {
+logoutPopup.style.display = 'block';
+});
+
+// Hide the popup when the close button is clicked
+closeBtn.addEventListener('click', () => {
+logoutPopup.style.display = 'none';
+});
+
+// Hide the popup when the cancel button is clicked
+cancelLogout.addEventListener('click', () => {
+logoutPopup.style.display = 'none';
+});
+
+// Perform logout action when the confirm button is clicked
+confirmLogout.addEventListener('click', () => {
+// Add your logout logic here
+alert('You have been logged out.');
+logoutPopup.style.display = 'none';
+});
+
+// Hide the popup when clicking outside the popup content
+window.addEventListener('click', (event) => {
+if (event.target == logoutPopup) {
+logoutPopup.style.display = 'none';
+}
+});
+
+    
+        // Map initialization
+        var map = L.map('map').setView([27.7172, 85.3240], 13);
+
+        // OSM layer
+        var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        osm.addTo(map);
+
+        // Google Streets layer
+        var googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        });
+        googleStreets.addTo(map);
+
+        // Single marker with popup
+        var singleMarker = L.marker([27.7172, 85.3240]);
+        singleMarker.bindPopup('This is Kathmandu, Nepal').openPopup();
+        singleMarker.addTo(map);
+
+        // Function to perform reverse geocoding
+        function reverseGeocode(lat, lon) {
+            var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var address = data.address;
+                    var placeName = [
+                        address.attraction || address.road,
+                        address.suburb,
+                        address.city || address.town || address.village || address.municipality
+                    ].filter(Boolean).join(', ');
+                    showAlert("Location:- " + placeName);
+                    saveLocation(lat, lon, placeName);
+                })
+                .catch(error => console.log('Error:', error));
+        }
+
+        // Function to save location data to the database
+        function saveLocation(lat, lon, placeName) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "save_location.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    showAlert(xhr.responseText);
+                }
+            };
+            var data = `latitude=${lat}&longitude=${lon}&place_name=${encodeURIComponent(placeName)}`;
+            xhr.send(data);
+        }
+
+        // Event handling
+        function onMapClick(e) {
+            var latlng = e.latlng;
+            showAlert("You clicked the map at " + latlng);
+            reverseGeocode(latlng.lat, latlng.lng);
+        }
+
+        map.on('click', onMapClick);
+
+        // Function to show custom alert
+        function showAlert(message) {
+            document.querySelector('.overlay').style.display = 'block';
+            document.querySelector('.custom-alert').style.display = 'block';
+            document.getElementById('alert-content').innerText = message;
+        }
+
+        // Function to close custom alert
+        function closeAlert() {
+            document.querySelector('.overlay').style.display = 'none';
+            document.querySelector('.custom-alert').style.display = 'none';
+        }
+
+
+
+</script>
+</body>
+</html>
